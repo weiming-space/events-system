@@ -241,7 +241,7 @@
 
             if(event.target[event.type]){
                 targetData.disabled = true;
-                event.target[evnet.type]();
+                event.target[event.type]();
                 targetData.disabled = false;
             }
         }
