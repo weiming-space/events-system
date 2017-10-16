@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>events-system</title>
+    <style>
+
+    * { margin: 0; padding: 0; }
+    div { width: 200px; height: 200px; background: red; margin-left: 50px; overflow: hidden;}
+    #div2 { width: 100px; height: 100px; margin-left: 50px; margin-top: 25x; background: green; overflow: hidden;}
+    #div3 { width: 50px; height: 50px; margin-left: 25px;  margin-top: 25px;background: blue;}
+    #abc { width: 50px; height: 50px; background: yellow; display: none;}
+    </style>
+</head>
+<body id="body">
+    <div id="div1">
+        <div id="div2">
+            <div id="div3"></div>
+        </div>
+    </div>
+
+    <div id="abc"></div>
+
+    <script>
+        var oDiv1 = document.getElementById('div1');
+        var oAbc = document.getElementById('abc');
+
+
+        function contains(target, related){
+            var parent = related;
+            while(parent && parent !== target){
+                parent = parent.parentNode;
+            }
+            if(parent){
+                return true;
+            }else{
+                return false;
+            }
+        };
+        oDiv1.onmouseover = function(e){
+
+            var related = e.relatedTarget;
+
+            if(!contains(oDiv1, related)){
+                console.log(1);
+                oAbc.style.display = 'block';
+            }
+        }
+        oDiv1.onmouseout = function(e){
+            var related = e.relatedTarget;
+
+            if(!contains(oDiv1, related)){
+                console.log(2);
+                oAbc.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

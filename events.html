@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>events-demo</title>
+    <style>
+        * { margin: 0; padding: 0;}
+        div {
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+            margin: 100px 0 100px 100px;
+            line-height: 100px;
+            text-align: center;
+            color: #FFF;
+            background: green;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="div1">div1</div>
+    <div id="div2">div2</div>
+    <div id="div3">div3</div>
+
+    <script src="./events.js"></script>
+    <script>
+    addEvent(window, 'load', function(){
+        var aDiv = document.getElementsByTagName('div'),
+            i    = 0;
+            len  = aDiv.length;
+
+        for(; i<len; i++ ){
+            var oDiv = aDiv[i];
+            addEvent(oDiv, 'mouseover', function(){
+                this.style.backgroundColor = 'red';
+            });
+
+            addEvent(oDiv, 'mouseout', function(){
+                this.style.backgroundColor = '';
+            });
+
+            addEvent(oDiv, 'click', function handler(){
+                alert(this.innerHTML);
+                removeEvent(this, 'click', handler);
+            });
+        }
+    })
+    </script>
+</body>
+</html>

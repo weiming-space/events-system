@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>模拟ajax进行自定义事件触发</title>
+</head>
+<body>
+
+    <input type="button" id="btn1" value="clickMe"/>
+    <input type="button" id="btn2" value="clickMeBubble"/>
+    <p id="p1">load a hello world!</p>
+
+
+    <script src="./events.js"></script>
+    <script type="text/javascript">
+        addEvent(window, 'load', function(){
+            var oBody = document.body,
+                oBtn1 = document.getElementById('btn1'),
+                oBtn2 = document.getElementById('btn2'),
+                oP    = document.getElementById('p1');
+
+            //隐藏冒泡版
+            addEvent(oBtn1, 'click', function(){
+
+                ajax1();
+            });
+
+            //显示冒泡版，从当前元素开始往上冒
+            addEvent(oBtn2, 'click', function(){
+                ajax2(this);
+            });
+
+            //自定义事件
+            addEvent(oBody, 'ajax-start', function(){
+                oP.innerHTML = 'loading';
+            });
+
+            addEvent(oBody, 'ajax-success', function(){
+                oP.innerHTML = 'hello world loaded!';
+            });
+
+
+            /* 为了更加明显区分，固未做以下两方法的整合 */
+            //模拟ajax1 *隐式冒泡版；
+            function ajax1(){
+                var timer = null;
+
+                triggerEvent(oBody, 'ajax-start');
+
+                timer = setTimeout(function(){
+                    clearTimeout(timer); timer = null;
+
+                    console.log('loaded');
+                    triggerEvent(oBody, 'ajax-success');
+                }, 3000);
+            }
+
+            //模拟ajax2, *显示指定当前元素冒泡版
+            function ajax2(target){
+                var timer = null;
+
+                triggerEvent(target, 'ajax-start');
+
+                timer = setTimeout(function(){
+                    clearTimeout(timer); timer = null;
+
+                    console.log('loaded');
+                    triggerEvent(target, 'ajax-success');
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>
